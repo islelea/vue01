@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-model="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="static/vue.min.js"></script>
+    <style>
+        .father{
+            width: 500px;
+            height: 500px;
+            background: red;
+        }
+        .son{
+            width: 300px;
+            height: 300px;
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+<!--
+    1.引入vue.js
+    2.创建一个vue对象,指定el属性，data属性，methods属性
+    3.页面种指定vue控制区域
+-->
+<div id="app">
+    <!-- 插值表达式 -->
+    {{ message }}
+
+    <input type="button" v-on:click="fun('茄子')" value="变">
+    <button @click="fun('good')">改变</button>
+</div>
+
+<div id="lb">
+    <!-- 插值表达式 -->
+    {{ message }}
+
+    <input type="button" value="浪起来" @click="lang">
+    <input type="button" value="低调" @click="stop">
+
+</div>
+
+<div id="keyboard">
+    <!-- 插值表达式 -->
+    {{ message }}
+
+    <input type="text" v-on:keydown="fun($event)" v-model="message">
+</div>
+
+
+<div id="mouse">
+    <div class="father" @mouseover="alert('father')">
+        <!--<div class="son" @mouseover.stop="alert('son')"></div>-->
+        <div class="son" @mouseover.stop="alert('son')"></div>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el:"#app",//必须要有
+        data:{
+            message:"wdnmd"
+        },
+        methods:{
+            fun:function(msg){
+                // this代表的是vue对象，或者使用vm
+                this.message=msg;
+            }
+        }
+
+    });
+    
+    new Vue({
+        el:"#lb",
+        data:{
+            message:"1,2,3,4,5,6,7,8,9,0,",
+            intervalId: null
+        },
+        methods: {
+            lang:function () {
+                if (this.intervalId!=null){
+                    return;
+                }
+                this.intervalId = setInterval(() => {
+                    // 获取到 第一个字符
+                    var start = this.message.substring(0, 1);
+                // 获取到 后面的所有字符
+                var end = this.message.substring(1);
+                // 重新拼接得到新的字符串，并赋值给 this.msg
+                this.message = end+ start ;
+            },500);
+                // 注意： VM实例，会监听自己身上 data 中所有数据的改变，只要数据一发生变化，
+                // 就会自动把 最新的数据，从data 上同步到页面中去；【好处：程序员只需要关心数据，
+                // 不需要考虑如何重新渲染DOM页面】
+            },
+            stop:function () {
+                // 停止定时器
+                clearInterval(this.intervalId);
+                // 每当清除了定时器之后，需要重新把 intervalId 置为 null
+                this.intervalId = null;
+            }
+        }
+    });
+
+    new Vue({
+       el:"#keyboard",
+       data:{
+           message:"123"
+       },
+       methods:{
+           fun: function(e) {
+               //1.捕获keyCode 判断它是否是0-9  需要使用event对象
+               var keyCode = e.keyCode;
+               // 只能输入数字
+               if(!(keyCode >= 48 && keyCode <= 57)) {
+                   //2.阻止默认行为执行
+                   e.preventDefault();
+               }
+           }
+       }
+    });
+
+    new Vue({
+        el:"#mouse",
+    })
+</script>
+</body>
+</html>

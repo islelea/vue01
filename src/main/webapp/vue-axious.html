@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="static/vue.min.js"></script>
+    <script type="text/javascript" src="static/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    {{message}}
+    {{list}}
+</div>
+</body>
+<script type="text/javascript">
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            message:"",
+            list:""
+        },
+        create:function () {
+            axios.get('./data/user.json').then((msg) => {
+                this.list = msg.data;
+                console.log(msg);
+            }).catch((msg) => {
+                console.log(msg);
+            }).finally((msg) => {
+                console.log(msg);
+            })
+        }
+    })
+</script>
+</html>

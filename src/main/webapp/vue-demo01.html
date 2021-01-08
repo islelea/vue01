@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="static/vuejs-2.5.16.js"></script>
+</head>
+<body>
+<!--
+    1.引入vue.js
+    2.创建一个vue对象,指定el属性，data属性，method属性
+    3.页面种指定vue控制区域
+-->
+<div id="app">
+    <!-- 插值表达式 -->
+    {{message+"，你在干什么！"}}
+
+    <input type="text" v-model="message">
+</div>
+
+<script type="text/javascript">
+    new Vue({
+        el:"#app",//必须要有
+        data:{
+            message:"wdnmd"
+        }
+    })
+</script>
+</body>
+</html>
